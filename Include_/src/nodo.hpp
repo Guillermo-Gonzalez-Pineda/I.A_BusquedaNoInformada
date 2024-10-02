@@ -22,6 +22,6 @@ class nodo {
 
   private:
     int id_;
-    nodo* padre_;
+    nodo* padre_ = nullptr;
     int coste_rama_nodo = 0;
 };

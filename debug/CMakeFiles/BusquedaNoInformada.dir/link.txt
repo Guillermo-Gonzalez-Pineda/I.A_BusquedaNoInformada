@@ -1,0 +1,1 @@
+/usr/bin/c++  -g -O0 -Wall -Wextra -Wpedantic -Weffc++  -rdynamic CMakeFiles/BusquedaNoInformada.dir/main.cpp.o  -o BusquedaNoInformada 

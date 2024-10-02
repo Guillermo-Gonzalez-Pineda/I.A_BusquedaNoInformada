@@ -1,4 +1,4 @@
-#include "Include/src/estrategiaBusqueda.hpp"
+#include "Include_/src/estrategiaBusqueda.hpp"
 
 int main(int argc, char* argv[]) {
   if(argc >= 3) {

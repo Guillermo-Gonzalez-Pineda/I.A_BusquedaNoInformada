@@ -7,12 +7,12 @@ class grafo {
     grafo(std::string);
 
     nodo getNodo(int id);
-    std::map<int, std::map<int, int>> getListaAdyacente() {return lista_adyacencia_;};
+    std::map<int, std::map<int, double>> getListaAdyacente() {return lista_adyacencia_;};
     int getGrafoSize() {return grafo_size_;};
     int getNumAristas() {return num_aristas;};
 
   private:
-    std::map<int, std::map<int, int>> lista_adyacencia_;
+    std::map<int, std::map<int, double>> lista_adyacencia_;
     int grafo_size_;
     int num_aristas = 0;
     std::map<int, nodo> cache_nodos_;
@@ -34,6 +34,7 @@ grafo::grafo(std::string nombre_archivo) {
     grafo_size_ = -1;
     return;
   }
+
   //Leemos el numero de nodos que tiene el grafo
   std::string linea;
   std::getline(archivo, linea);
@@ -46,14 +47,22 @@ grafo::grafo(std::string nombre_archivo) {
  	for(int i = 1; i <= grafo_size_; i++) {
 		for(int j = i + 1; j <= grafo_size_; j++) {
 			std::getline(archivo, linea);
+
+      //Reemplazamos comas por puntos
+      std::replace(linea.begin(), linea.end(), ',', '.');
+
+      std::stringstream ss(linea);
+      double coste;
+      ss >> coste;    // Intenta leer el coste como un double
+
       //Si hay un -1 no se guarda ningún coste.
-			if(linea == "-1.00" || linea == "-1,00") {
+			if(coste == -1.00) {
 				continue;
 			}
-			int coste = stoi(linea);
 			lista_adyacencia_[i][j] = coste;
       lista_adyacencia_[j][i] = coste;
       num_aristas++;
 		}
 	}
+
 }
