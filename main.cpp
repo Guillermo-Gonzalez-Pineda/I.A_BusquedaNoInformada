@@ -48,6 +48,7 @@ int main(int argc, char* argv[]) {
   std::cout << MAGENTA << "-------------------------------------" << RESET << std::endl;
   std::cout << GREEN << "    1) Búsqueda en Amplitud. (BFS)" << RESET << std::endl;
   std::cout << GREEN << "    2) Búsqueda en Profundidad. (DFS)" << RESET << std::endl;
+  std::cout << GREEN << "    3) Búsqueda en Anchura Modificación" << RESET << std::endl;
   std::cin >> tipo_busqueda;
 
 
@@ -69,6 +70,9 @@ int main(int argc, char* argv[]) {
     resultado = algoritmo_busqueda->buscar(g, id_nodo_inicial, id_nodo_objetivo, archivo_salida, imprimir_traza_pantalla);
   } else if(tipo_busqueda == 2) {
     algoritmo_busqueda = new BusquedaProfundidad();
+    resultado = algoritmo_busqueda->buscar(g, id_nodo_inicial, id_nodo_objetivo, archivo_salida, imprimir_traza_pantalla);
+  } else if(tipo_busqueda == 3) {
+    algoritmo_busqueda = new BusquedaAnchuraModificacion();
     resultado = algoritmo_busqueda->buscar(g, id_nodo_inicial, id_nodo_objetivo, archivo_salida, imprimir_traza_pantalla);
   } else {
     std::cerr << RED << "Debe seleccionar un metodo de busqueda valido" << RESET << std::endl;

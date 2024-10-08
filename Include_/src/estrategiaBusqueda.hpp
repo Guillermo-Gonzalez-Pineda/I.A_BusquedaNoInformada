@@ -269,3 +269,91 @@ class BusquedaProfundidad : public EstrategiaBusqueda {
       return nodo(-1);
     }
 };
+
+class BusquedaAnchuraModificacion : public EstrategiaBusqueda {
+  public:
+    nodo buscar(grafo& g, int id_nodo_inicio, int id_nodo_objetivo, std::ofstream& archivo_salida, bool imprimir_traza) override {
+      if (imprimir_traza) {if(imprimir_traza) {imprimirInicio(g.getGrafoSize(), g.getNumAristas(), id_nodo_inicio, id_nodo_objetivo);}
+      imprimirArchivoInicio(g.getGrafoSize(), g.getNumAristas(), id_nodo_inicio, id_nodo_objetivo, archivo_salida);}
+
+      std::queue<nodo*> cola_nodos;
+      std::vector<nodo*> nodos_generados;
+      std::vector<nodo*> nodos_visitados;
+      std::map<int, std::map<int, double>> lista_adyacencia = g.getListaAdyacente();
+
+      int iteracion = 1;
+      nodo* nodo_inicio = new nodo(id_nodo_inicio);   //Generamos el nodo 1
+      nodos_generados.push_back(nodo_inicio);
+
+      if(imprimir_traza) {imprimirIteracion(iteracion, nodos_generados, nodos_visitados);}    //Imprimir en pantalla
+      imprimirArchivoIteracion(iteracion, nodos_generados, nodos_visitados, archivo_salida);
+
+      //Generamos los hijos del nodo inicial y los guardamos en un vector
+      std::vector<nodo*> vector_aux;
+      for(auto& vecino : lista_adyacencia[nodo_inicio->getID()]) {
+        nodo* nodo_vecino = new nodo(vecino.first);
+        nodo_vecino->setPadre(nodo_inicio);
+        vector_aux.push_back(nodo_vecino);
+      }
+
+      nodos_visitados.push_back(nodo_inicio);
+
+      //Bucle para iterar 10 veces
+      for(int i = 0; i < 10; i++) {
+        //Genero un indice aleatorio para utilizar uno de los hijos del nodo padre de forma aleatoria
+        srand(time(NULL));
+        int indice = rand() % vector_aux.size();
+        nodo* aleatorio = vector_aux[indice];
+        //Añadimos el nodo aleatorio a la cola, será el primero en ser evaluado
+        cola_nodos.push(aleatorio);
+        //Mientras la cola no esté vacía, se irán examinando los demás nodos
+        while (!cola_nodos.empty()) {
+          nodo* nodo_actual = cola_nodos.front();
+          nodos_visitados.push_back(nodo_actual);
+          cola_nodos.pop();
+
+          if(nodo_actual->getID() == id_nodo_objetivo) {
+            if(imprimir_traza) {imprimirIteracion(iteracion, nodos_generados, nodos_visitados);}    //Imprimir en pantalla
+            imprimirArchivoIteracion(iteracion, nodos_generados, nodos_visitados, archivo_salida);
+            std::vector<nodo> camino = reconstruirCamino(*nodo_actual);
+            if(imprimir_traza) {imprimirCamino(camino, nodo_actual);}       //Imprimir en pantalla
+            imprimirArchivoCamino(camino, nodo_actual, archivo_salida);
+            return *nodo_actual;
+          }
+
+          for(auto& vecino : lista_adyacencia[nodo_actual->getID()]) {
+            bool nodo_generado = false;
+            nodo* padre = nodo_actual->getPadre();
+            while(padre != nullptr) {
+              if(padre->getID() == vecino.first) {
+                nodo_generado = true;
+                break;
+              }
+              padre = padre->getPadre();
+            }
+
+            if(!nodo_generado) {
+              nodo* nodo_vecino = new nodo(vecino.first);
+              nodo_vecino->setPadre(nodo_actual);
+              int coste_nodo = nodo_actual->getCosteRama() + vecino.second;
+              nodo_vecino->setCosteRama(coste_nodo);
+
+              //Guardamos el nodo en la cola y en el vector de nodos generados
+              cola_nodos.push(nodo_vecino);
+              nodos_generados.push_back(nodo_vecino);
+            }
+          }
+
+          //Marcamos el nodo actual como visitado
+          iteracion++;
+          if (imprimir_traza) {
+            imprimirIteracion(iteracion, nodos_generados, nodos_visitados);
+          }
+          imprimirArchivoIteracion(iteracion, nodos_generados, nodos_visitados, archivo_salida);
+        }
+      }
+
+      std::cout << RED << "Nodo objetivo no encontrado." << RESET << std::endl;
+      return nodo(-1);
+    }
+};

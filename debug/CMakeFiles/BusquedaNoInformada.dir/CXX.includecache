@@ -25,6 +25,8 @@ vector
 -
 sstream
 -
+random
+-
 
 /home/guillermo/Ingenieria Informatica/Tercero_carrera/Include_/src/estrategiaBusqueda.hpp
 grafo.hpp

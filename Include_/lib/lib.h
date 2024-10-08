@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <random>
 
 // Códigos de color
 #define RESET "\033[0m"
