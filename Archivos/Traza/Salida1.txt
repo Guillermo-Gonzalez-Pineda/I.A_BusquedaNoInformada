@@ -1,0 +1,38 @@
+Numero de nodos del grafo: 15
+Numero de aristas del grafo: 19
+Vértice Origen: 15
+Vértice Destino: 2
+===================================
+Iteración 1
+Nodos generados: 15
+Nodos visitados: 
+===================================
+Iteración 2
+Nodos generados: 15, 7, 9
+Nodos visitados: 15
+
+===================================
+Iteración 3
+Nodos generados: 15, 7, 9, 6, 8
+Nodos visitados: 15, 7
+
+===================================
+Iteración 4
+Nodos generados: 15, 7, 9, 6, 8, 4, 5, 9, 10
+Nodos visitados: 15, 7, 6
+
+===================================
+Iteración 5
+Nodos generados: 15, 7, 9, 6, 8, 4, 5, 9, 10, 2, 3, 12
+Nodos visitados: 15, 7, 6, 4
+
+===================================
+Iteración 6
+Nodos generados: 15, 7, 9, 6, 8, 4, 5, 9, 10, 2, 3, 12
+Nodos visitados: 15, 7, 6, 4, 2
+
+===================================
+Camino: 15 - 7 - 6 - 4 - 2
+===================================
+Coste: 33
+===================================

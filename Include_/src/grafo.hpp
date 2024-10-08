@@ -29,7 +29,7 @@ grafo::grafo(std::string nombre_archivo) {
   //Abrimos el archivo cuyo nombre nos han pasado por parámetros
   std::ifstream archivo(nombre_archivo);
   if(!archivo.is_open()) {
-    std::cerr << "El Archivo no se pudo abrir." << std::endl;
+    std::cerr << RED  << "El Archivo no se pudo abrir." << RESET << std::endl;
     //Comprobar que no se construyó el grafo
     grafo_size_ = -1;
     return;
